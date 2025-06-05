@@ -3,9 +3,9 @@ name: Svelte TypeScript CI
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'feat/svelte-app']
   pull_request:
-    branches: ['main']
+    branches: ['main', 'feat/svelte-app']
 jobs:
   lint:
     runs-on: ubuntu-latest
