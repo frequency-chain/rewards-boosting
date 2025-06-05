@@ -1,0 +1,104 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Svelte TypeScript CI
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        # If this fails, run 'npm run fix-package-lock' and commit the result
+        run: npm i
+
+      - name: Lint
+        run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        # If this fails, run 'npm run fix-package-lock' and commit the result
+        run: npm i
+
+      - name: Build
+        env:
+          BASE_PATH: ''
+        run: |
+          npm run build
+          touch build/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+      
+      - name: CI Unit Tests
+      run: npm run test:ci
+
+  e2e:
+    runs-on: ubuntu-latest
+
+    container:
+      image: mcr.microsoft.com/playwright:v1.51.0-noble
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm i
+      - name: 'E2E Tests'
+        run: npm run test:e2e
+
+  # Preview PRs when actions/deploy-pages preview option is in public
+  # https://github.com/actions/deploy-pages/issues/180
+  # deploy-preview:
+  #   # Skip unless it is an open PR
+  #   if: github.event_name == 'pull_request' && github.event.action != 'closed'
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+  #   permissions:
+  #     contents: read
+  #     pages: write
+  #     id-token: write
+  #   runs-on: ubuntu-latest
+  #   needs: build
+
+  #   steps:
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v4
+  #       with:
+  #         preview: 'true'
