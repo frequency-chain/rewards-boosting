@@ -8,7 +8,7 @@ on:
 
 jobs:
   prettier:
-    name: Prettier
+    name: Prettier & ESLint
 
     runs-on: ubuntu-latest
 
@@ -25,5 +25,5 @@ jobs:
       - name: Install Dependencies
         run: npm i
 
-      - name: Check formatting with Prettier
-        run: npm run prettier:check:i
+      - name: Check formatting with Prettier and ESLint
+        run: npm run lint
