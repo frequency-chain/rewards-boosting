@@ -86,13 +86,12 @@
     isLoading = true;
     isCustomNetwork = selectedNetwork?.id === NetworkType.CUSTOM;
     accounts = new Map();
-     
+
     if (selectedNetwork?.endpoint && isValidURL(selectedNetwork!.endpoint.toString())) {
-       
       await connectAndFetchAccounts(selectedNetwork!);
       connectedToEndpoint = true;
     }
-     
+
     newUser = { network: selectedNetwork!, address: '', isProvider: false };
     isLoading = false;
   }
@@ -108,7 +107,6 @@
   function customNetworkChanged(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       if (isValidURL(customNetwork)) {
-         
         selectedNetwork!.endpoint = customNetwork;
       }
     }

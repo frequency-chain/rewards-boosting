@@ -1,6 +1,4 @@
 import { getMsaInfo } from '$lib/polkadotApi';
-import { NetworkType, type NetworkInfo } from './networksStore';
-import type { MsaInfo } from './storeTypes';
 import { providerNameToHuman } from '$lib/utils';
 import { Keyring, type ApiPromise } from '@polkadot/api';
 import type { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
@@ -8,6 +6,8 @@ import type { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import { isFunction } from '@polkadot/util';
 import { derived, writable, type Readable } from 'svelte/store';
+import { NetworkType, type NetworkInfo } from './networksStore';
+import type { MsaInfo } from './storeTypes';
 
 export type SS58Address = string;
 
@@ -29,9 +29,9 @@ export class Account {
 export type Accounts = Map<SS58Address, Readonly<Account>>;
 
 // Helper functions to filter all accounts to just the accounts for that store
-const isProvider = ([_key, account]: [string, Account]) => account.isProvider;
-const isNotProviderMsa = ([_key, account]: [string, Account]) => !account.isProvider;
-const isUnused = ([_key, account]: [string, Account]) => !account.isProvider && !account.msaId;
+const isProvider = ([, account]: [string, Account]) => account.isProvider;
+const isNotProviderMsa = ([, account]: [string, Account]) => !account.isProvider;
+const isUnused = ([, account]: [string, Account]) => !account.isProvider && !account.msaId;
 
 // Stores all accounts
 export const allAccountsStore = writable<Accounts>(new Map<SS58Address, Readonly<Account>>());
