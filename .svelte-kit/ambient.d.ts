@@ -33,7 +33,6 @@ declare module '$env/static/private' {
 	export const NVM_CD_FLAGS: string;
 	export const TERM: string;
 	export const SHELL: string;
-	export const npm_config_metrics_registry: string;
 	export const HOMEBREW_REPOSITORY: string;
 	export const TMPDIR: string;
 	export const npm_config_global_prefix: string;
@@ -92,7 +91,6 @@ declare module '$env/static/private' {
 	export const npm_node_execpath: string;
 	export const npm_config_prefix: string;
 	export const COLORTERM: string;
-	export const NODE_ENV: string;
 }
 
 /**
@@ -131,7 +129,6 @@ declare module '$env/dynamic/private' {
 		NVM_CD_FLAGS: string;
 		TERM: string;
 		SHELL: string;
-		npm_config_metrics_registry: string;
 		HOMEBREW_REPOSITORY: string;
 		TMPDIR: string;
 		npm_config_global_prefix: string;
@@ -190,7 +187,6 @@ declare module '$env/dynamic/private' {
 		npm_node_execpath: string;
 		npm_config_prefix: string;
 		COLORTERM: string;
-		NODE_ENV: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}
