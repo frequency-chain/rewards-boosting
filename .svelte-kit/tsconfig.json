@@ -1,11 +1,29 @@
 {
 	"compilerOptions": {
 		"paths": {
+			"$components": [
+				"../src/components"
+			],
+			"$components/*": [
+				"../src/components/*"
+			],
+			"$pages": [
+				"../src/components/pages"
+			],
+			"$pages/*": [
+				"../src/components/pages/*"
+			],
 			"$lib": [
 				"../src/lib"
 			],
 			"$lib/*": [
 				"../src/lib/*"
+			],
+			"$routes": [
+				"../src/routes"
+			],
+			"$routes/*": [
+				"../src/routes/*"
 			]
 		},
 		"rootDirs": [
