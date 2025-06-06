@@ -2,8 +2,15 @@
   import '../app.css';
   import { Header, Footer } from '@frequency-chain/style-guide';
   import { base } from '$app/paths';
+  import { logInPromise } from '$lib/stores/stores';
 
   let { children } = $props();
+
+  $effect(() => {
+    $logInPromise.then(() => {
+      console.log('Set login in promise');
+    });
+  });
 </script>
 
 <div>
