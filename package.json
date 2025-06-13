@@ -51,6 +51,7 @@
     "@polkadot/extension-inject": "^0.58.8",
     "@polkadot/keyring": "^13.1.1",
     "@polkadot/types": "^15.9.2",
-    "@polkadot/util": "^13.1.1"
+    "@polkadot/util": "^13.1.1",
+    "mermaid": "^11.6.0"
   }
 }
