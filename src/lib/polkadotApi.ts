@@ -39,10 +39,11 @@ export interface AccountBalances {
   total: bigint;
 }
 export async function getBalances(apiPromise: ApiPromise, ControlKey: string): Promise<AccountBalances> {
-  const accountData = (await apiPromise.query.system.account(ControlKey)).data;
+  const accountData = ((await apiPromise.query.system.account(ControlKey)) as any).data;
   const free = accountData.free.toBigInt();
   const locked = accountData.frozen.toBigInt();
-  const transferable = free - locked;
+  const transferableNum = free - locked;
+  const transferable = BigInt(transferableNum);
   const total = free + accountData.reserved.toBigInt();
   return {
     transferable,
@@ -52,14 +53,14 @@ export async function getBalances(apiPromise: ApiPromise, ControlKey: string): P
 }
 
 export async function getMsaInfo(apiPromise: ApiPromise, publicKey: string): Promise<MsaInfo> {
-  const received = (await apiPromise?.query.msa.publicKeyToMsaId(publicKey))?.unwrapOrDefault();
+  const received = ((await apiPromise?.query.msa.publicKeyToMsaId(publicKey)) as any)?.unwrapOrDefault();
   const msaInfo: MsaInfo = { isProvider: false, msaId: 0, providerName: '' };
   msaInfo.msaId = received?.toNumber();
   if (msaInfo.msaId > 0) {
     const providerRegistry = await apiPromise.query.msa.providerToRegistryEntry(msaInfo.msaId);
-    if (providerRegistry.isSome) {
+    if ((providerRegistry as any).isSome) {
       msaInfo.isProvider = true;
-      const registryEntry = providerRegistry.unwrap();
+      const registryEntry = (providerRegistry as any).unwrap();
       msaInfo.providerName = registryEntry.providerName.toString();
     }
   }
@@ -85,8 +86,8 @@ export async function getCapacityInfo(apiPromise: ApiPromise, msaId: number): Pr
 
   let capacityDetails = defaultCapacityDetails;
 
-  if (providerRegistry.isSome) {
-    const details = (await apiPromise.query.capacity.capacityLedger(msaId)).unwrapOrDefault();
+  if ((providerRegistry as any).isSome) {
+    const details = ((await apiPromise.query.capacity.capacityLedger(msaId)) as any).unwrapOrDefault();
     capacityDetails = {
       remainingCapacity: details.remainingCapacity.toBigInt(),
       totalTokensStaked: details.totalTokensStaked.toBigInt(),
@@ -99,7 +100,7 @@ export async function getCapacityInfo(apiPromise: ApiPromise, msaId: number): Pr
 }
 
 export async function getControlKeys(apiPromise: ApiPromise, msaId: number): Promise<string[]> {
-  const keyInfoResponse = (await apiPromise.rpc.msa.getKeysByMsaId(msaId)).toHuman() as unknown;
+  const keyInfoResponse = (await (apiPromise.rpc as any).msa.getKeysByMsaId(msaId)).toHuman() as any;
   const keys = keyInfoResponse?.msa_keys;
   if (keys) {
     console.log('Successfully found keys.', keys);
