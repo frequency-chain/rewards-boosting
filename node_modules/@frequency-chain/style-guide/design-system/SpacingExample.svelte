@@ -1,0 +1,21 @@
+<div class="gap-f12 flex flex-col whitespace-nowrap">
+  <div class="w-f4 bg-purple50">f4 - 4px</div>
+  <div class="w-f8 bg-purple50">f8 - 8px</div>
+  <div class="w-f12 bg-purple50">f12 - 12px</div>
+  <div class="w-f16 bg-purple50">f16 - 16px</div>
+  <div class="w-f20 bg-purple50">f20 - 20px</div>
+  <div class="w-f24 bg-purple50">f24 - 24px</div>
+  <div class="w-f32 bg-purple50">f32 - 32px</div>
+  <div class="w-f40 bg-purple50">f40 - 40px</div>
+  <div class="w-f48 bg-purple50">f48 - 48px</div>
+  <div class="w-f64 bg-purple50">f64 - 64px</div>
+  <div class="w-f80 bg-purple50">f80 - 80px</div>
+  <div class="w-f96 bg-purple50">f96 - 96px</div>
+  <div class="w-f120 bg-purple50">f120 - 120px</div>
+  <div class="w-f128 bg-purple50">f128 - 128px</div>
+  <div class="w-f160 bg-purple50">f160 - 160px</div>
+  <div class="w-f192 bg-purple50">f192 - 192px</div>
+  <div class="w-f224 bg-purple50">f224 - 224px</div>
+  <div class="w-f256 bg-purple50">f256 - 256px</div>
+  <div class="w-f320 bg-purple50">f320 - 320px</div>
+</div>
