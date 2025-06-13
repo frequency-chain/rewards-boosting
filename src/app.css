@@ -1,0 +1,14 @@
+@import '@frequency-chain/style-guide/styles';
+
+@source '../node_modules/@frequency-chain/style-guide/**/*.{svelte,js,ts}';
+
+@plugin '@tailwindcss/forms';
+
+/* Layout */
+@utility freq-container-padding {
+  @apply px-[10px] sm:px-[30px] md:px-[40px] lg:px-[80px];
+}
+
+@utility freq-container {
+  @apply mx-auto box-border w-full overflow-hidden px-[10px] sm:px-[30px] md:px-[40px] lg:max-w-[100vw] lg:px-[80px] xl:max-w-screen;
+}
