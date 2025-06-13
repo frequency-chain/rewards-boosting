@@ -43,7 +43,7 @@
       disabled={isLoading || disabled}
     >
       <option class="text-gray3" value={null} disabled>{placeholder}</option>
-      {#each options as option (getKey(option))}
+      {#each options as option, index (`${getKey(option)}-${index}`)}
         <option value={option}>{formatter(option)}</option>
       {/each}
     </select>
