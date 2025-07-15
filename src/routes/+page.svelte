@@ -6,14 +6,20 @@
 </script>
 
 <div class="gap-f16 freq-container flex flex-col items-start">
-  <h1 class="text-primary">Rewards Boosting</h1>
+  <h1 class="text-primary">Rewards Boosting Dashboad</h1>
 
-  <LoginModal />
-  {#if $isLoggedIn}
-    <div>
-      <div class="font-bold">Succefully connected wallet!</div>
-      <div>{`${$user.display}: ${$user.address}`}</div>
-    </div>
-    <ButtonNoFill id="logout-button" onclick={logout}>Logout</ButtonNoFill>
-  {/if}
+  <!-- GET TOKEN STATUS (can stake more, claim payout, unstake, unlock?) -->
+  <!-- GET TOKEN STATUS RESPONSE -->
+
+  <!-- EXECUTE STAKE REQUEST PROPS -->
+  <!-- EXECUTE STAKE RESPONSE -->
+
+  <!-- EXECUTE PAYOUT REQUEST PROPS -->
+  <!-- EXECUTE PAYOUT RESPONSE -->
+
+  <!-- EXECUTE UNSTAKE REQUEST PROPS -->
+  <!-- EXECUTE UNSTAKE RESPONSE -->
+
+  <!-- EXECUTE UNLOCK REQUEST PROPS -->
+  <!-- EXECUTE UNLOCK RESPONSE -->
 </div>
