@@ -1,5 +1,3 @@
-interface TokenStatusResponse {}
-
 interface StakeResponse {}
 // stake: AugmentedSubmittable<(target: u64 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u64, u128]>;
 

@@ -1,8 +1,12 @@
 import type { DotApi, MsaInfo } from '$lib/stores/storeTypes';
 import { options } from '@frequency-chain/api-augment';
 import { ApiPromise, Keyring, WsProvider } from '@polkadot/api';
+import type { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import type { Signer } from '@polkadot/api/types';
+import type { InjectedExtension } from '@polkadot/extension-inject/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { ChainProperties } from '@polkadot/types/interfaces';
+import type { Account } from './stores/accountsStore';
 
 export type AccountMap = Record<string, KeyringPair>;
 
@@ -107,4 +111,67 @@ export async function getControlKeys(apiPromise: ApiPromise, msaId: number): Pro
     return keys;
   }
   throw Error(`Keys not found for ${msaId}`);
+}
+
+// creates the payloads and gets or creates the signatures, then submits the extrinsic
+export async function submitStake(
+  api: ApiPromise,
+  extension: InjectedExtension | undefined,
+  signingAccount: Account,
+  providerId: number,
+  stakeAmount: bigint
+) {
+  if (api && (await api.isReady)) {
+    const extrinsic = api.tx.capacity?.stake(providerId, stakeAmount);
+    submitExtinsic(extrinsic, signingAccount, extension);
+  } else {
+    console.debug('api is not available.');
+  }
+}
+
+function submitExtinsic(
+  extrinsic: SubmittableExtrinsic,
+  account: Account,
+  extension: InjectedExtension | undefined
+): Promise<string> {
+  if (account.keyringPair) return submitExtrinsicWithKeyring(extrinsic, account.keyringPair);
+  if (extension) return submitExtrinsicWithExtension(extension, extrinsic, account.address);
+  throw new Error('Unable to find wallet extension');
+}
+
+// Use the built-in test accounts to submit an extrinsic
+async function submitExtrinsicWithKeyring(
+  extrinsic: SubmittableExtrinsic,
+  signingAccount: KeyringPair
+): Promise<string> {
+  try {
+    await extrinsic.signAndSend(signingAccount, { nonce: -1 }, () => {
+      // handle result
+    });
+  } catch (e: unknown) {
+    console.error(extrinsic.hash.toString(), `${e}`);
+  }
+  return extrinsic.hash.toString();
+}
+
+// use the Polkadot extension the user selected to submit the provided extrinsic
+async function submitExtrinsicWithExtension(
+  extension: InjectedExtension,
+  extrinsic: SubmittableExtrinsic,
+  signingAddress: string
+): Promise<string> {
+  // let currentTxDone = false; // eslint-disable-line prefer-const
+  try {
+    await extrinsic.signAndSend(signingAddress, { signer: extension.signer as Signer, nonce: -1 }, () => {
+      // handle result
+    });
+    // await waitFor(() => currentTxDone);
+  } catch (e: unknown) {
+    const message: string = `${e}`;
+    console.debug('caught exception:', message);
+    if (message.match(/timeout/i) === null) {
+      console.error(extrinsic.hash.toString(), message);
+    }
+  }
+  return extrinsic.hash.toString();
 }
